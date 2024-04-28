@@ -1,2 +1,32 @@
 ---
 # handlers file for preinstall
+#
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted
+
+- name: start redis
+  service:
+    name: redis
+    state: started
+
+- name: enable redis
+  service:
+    name: redis
+    state: enable
+
+- name: enable redis-sentinal
+  service:
+    name: redis-sentinal
+    state: started
+
+- name: enable redis
+  service:
+    name: redis-sentinal
+    state: enable
+
+- name: enable redis
+  service:
+    name: redis-sentinal
+    state: restarted

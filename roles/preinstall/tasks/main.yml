@@ -11,6 +11,12 @@
 - name: Set hostname
   command: hostnamectl set-hostname {{ inventory_hostname  }}
 
+- name: Configure hostnames
+  lininfile:
+    path: "/etc/hosts"
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1 {{ inventory_hostname  }} localhost"
+
 - name: Remove symlink resolv.conf
   file:
     path: "/etc/resolv.conf"
@@ -22,3 +28,18 @@
     src: "resolv.conf.j2"
     dest: "/etc/resolv.conf"
     mode: "0644"
+
+- name: Change SSHD config file
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#Banner'
+    line: 'Banner /etc/issue.net'
+  notify: restart sshd
+
+
+- name: Install redis & sentinel
+  apt:
+    update_cache: true
+    name:
+      - redis-sever
+      - redis-sentinel

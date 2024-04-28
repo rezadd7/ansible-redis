@@ -1,0 +1,19 @@
+---
+# tasks file for install
+- name: Install redis & sentinel
+  apt:
+    update_cache: no
+    name:
+      - redis-server
+      - redis-sentinel
+    state: present
+  when: inventory_hostname != "haproxy"
+
+- name: Install Haproxy
+  apt:
+    update_cache: no
+    name:
+      - haproxy
+    state: present
+  when: inventory_hostname == "haproxy"
+

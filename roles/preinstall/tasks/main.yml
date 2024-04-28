@@ -11,11 +11,11 @@
 - name: Set hostname
   command: hostnamectl set-hostname {{ inventory_hostname  }}
 
-    #- name: Configure hostnames
-    #  lininfile:
-    #    path: "/etc/hosts"
-    #    regexp: '^127\.0\.1\.1'
-    #    line: "127.0.1.1 {{ inventory_hostname  }} localhost"
+- name: Configure hostnames
+  lininfile:
+    path: "/etc/hosts"
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1 {{ inventory_hostname  }} localhost"
     #
     #- name: Remove symlink resolv.conf
     #  file:

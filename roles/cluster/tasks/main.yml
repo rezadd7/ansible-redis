@@ -1,0 +1,56 @@
+---
+# tasks file for cluster
+- name: Config master Node
+  lineinfile:
+    path: "{{ config_dir }}"
+    regexp: '^bind (127\.0\.0\.1|::1)'
+    line: "bind 0.0.0.0"
+  when: inventory_hostname == "master"
+
+
+- name: Config master Node
+  lineinfile:
+    path: "{{ config_dir }}"
+    regexp: '^# requirepass foobared'
+    line: "requirepass Db@123"
+  when: inventory_hostname == "master"
+
+- name: Config master Node
+  lineinfile:
+    path: "{{ config_dir }}"
+    regexp: '^# masterauth <master-password>'
+    line: "masterauth Db@123"
+  when: inventory_hostname == "master"
+  notify: restart redis
+
+- name: Config slave Node
+  lineinfile:
+    path: "{{ config_dir }}"
+    regexp: '^bind 127.0.0.1 ::1'
+    line: "bind 0.0.0.0"
+  when: inventory_hostname.startswith('slave')
+
+
+- name: Config master Node
+  lineinfile:
+    path: "{{ config_dir }}"
+    regexp: '^# requirepass foobared'
+    line: "requirepass Db@123"
+  when: inventory_hostname.startswith('slave')
+
+- name: Config master Node
+  lineinfile:
+    path: "{{ config_dir }}"
+    regexp: '^# masterauth <master-password>'
+    line: "masterauth Db@123"
+  when: inventory_hostname.startswith('slave')
+
+
+- name: Config master Node
+  lineinfile:
+    path: "{{ config_dir }}"
+    regexp: '^# replicaof <masterip> <masterport>'
+    line: "replicaof 192.168.229.11  6379"
+  when: inventory_hostname.startswith('slave')
+  notify: restart redis
+

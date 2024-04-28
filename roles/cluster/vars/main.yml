@@ -1,0 +1,3 @@
+---
+# vars file for cluster
+config_dir: "/etc/redis/redis.conf"

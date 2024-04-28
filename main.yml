@@ -1,5 +1,6 @@
 ---
 - hosts: all
   roles:
-    - role: preinstall
-    - role: install
+    #- role: preinstall
+    #- role: install
+    - role: cluster

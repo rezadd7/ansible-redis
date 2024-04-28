@@ -1,2 +1,24 @@
 ---
 # tasks file for preinstall
+- name: Apt Update
+  apt:
+    update_cache: yes
+
+- name: Set timezone to UTC
+  timezone:
+    name: Asia/Tehran
+
+- name: Set hostname
+  command: hostnamectl set-hostname {{ inventory_hostname  }}
+
+- name: Remove symlink resolv.conf
+  file:
+    path: "/etc/resolv.conf"
+    state: absent
+  ignore_errors: yes
+
+- name: Copy resolv.conf
+  template:
+    src: "resolv.conf.j2"
+    dest: "/etc/resolv.conf"
+    mode: "0644"
